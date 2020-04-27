@@ -1,0 +1,77 @@
+{%  extends 'Blog/base.html'%}
+
+
+{%block content%}
+  <!-- Page Content -->
+  <div class="container">
+
+    <div class="row">
+
+      <!-- Blog Entries Column -->
+      <div class="col-md-8">
+        <br>
+        {% for entry in entries %}
+        <!-- Blog Post -->
+          <div class="card mb-4">
+            <div class="card-body">
+              <h3 class="card-title">{{entry.entry_title}}</h3>
+              <p class="card-text">{{entry.entry_list|truncatechars:100}}</p>
+              <a href="{% url 'detail' entry.id %}" class="btn btn-primary">Read More &rarr;</a>
+            </div>
+            <div class="card-footer text-muted">
+             {{entry.entry_date}} by
+              <a href="#">{{entry.entry_author}}</a>
+            </div>
+          </div>
+        {%endfor%}
+
+        <!-- Pagination -->
+        {% if is_paginated %}
+        <ul class="pagination justify-content-center mb-4">
+
+              {% if page_obj.has_previous %}
+                <li><a href="?page={{ page_obj.previous_page_number }}" class="page-link">&laquo; PREV </a></li>
+              {% endif %}
+              {% if page_obj.has_next %}
+                <li><a href="?page={{ page_obj.next_page_number }}" class="page-link"> NEXT &raquo;</a></li>
+
+              {% endif %}
+
+        </ul>
+        {% endif %}
+
+      </div>
+
+      <!-- Sidebar Widgets Column -->
+      <div class="col-md-4">
+
+        <!-- Search Widget -->
+        <div class="card my-4">
+          <h5 class="card-header">Search</h5>
+          <div class="card-body">
+            <div class="input-group">
+              <input type="text" class="form-control" placeholder="Search for...">
+              <span class="input-group-btn">
+                <button class="btn btn-secondary" type="button">Go!</button>
+              </span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Side Widget -->
+        <div class="card my-4">
+          <h5 class="card-header">Side Widget</h5>
+          <div class="card-body">
+            <p><strong>User:</strong> {{user.username}}</p>
+            <p><strong>Email:</strong> {{ user.email }}</p>
+          </div>
+        </div>
+
+      </div>
+
+    </div>
+    <!-- /.row -->
+
+  </div>
+  <!-- /.container -->
+{%endblock%}
